@@ -37,5 +37,8 @@ Route::get('/recipes/{recipe}/edit', [RecipeController::class, 'edit'])->name('r
 Route::put('/recipes/{recipe}', [RecipeController::class, 'update'])->name('recipes.update')->middleware('auth');
 Route::delete('/recipes/{recipe}', [RecipeController::class, 'destroy'])->name('recipes.destroy')->middleware('auth');
 
+Route::post('/recipes/{recipe}/restore', [RecipeController::class, 'restore'])->name('recipes.restore')->middleware('auth');
+Route::get('/admin/trashed-recipes', [RecipeController::class, 'trashed'])->name('admin.trashed')->middleware('auth');
+
 // KOMENTĀRI
 Route::post('/recipes/{recipe}/comment', [App\Http\Controllers\CommentController::class, 'store'])->name('comments.store')->middleware('auth');

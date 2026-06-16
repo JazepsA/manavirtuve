@@ -188,4 +188,28 @@ class RecipeController extends Controller
         return redirect()->route('recipes.index')->with('success', 'Recepte veiksmīgi dzēsta!');
     }
 
+    // Atjauno izdzēstu recepti
+    public function restore($id)
+    {
+        $recipe = Recipe::withTrashed()->findOrFail($id);
+        
+        // Pārbauda, vai lietotājs ir admin
+        if (!Auth::user()->isAdmin()) {
+            abort(403, 'Tikai admin var atjaunot dzēstas receptes.');
+        }
+        
+        $recipe->restore();
+        
+        return redirect()->route('recipes.show', $recipe)->with('success', 'Recepte veiksmīgi atjaunota!');
+    }
+
+    public function trashed()
+    {
+        if (!Auth::user()->isAdmin()) {
+            abort(403);
+        }
+        $recipes = Recipe::onlyTrashed()->with(['category', 'user'])->get();
+        return view('admin.trashed', compact('recipes'));
+    }
+
 }

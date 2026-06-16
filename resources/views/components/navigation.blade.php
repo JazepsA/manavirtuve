@@ -13,6 +13,13 @@
                 </li>
 
                 @auth
+                    <!-- DZĒSTĀS RECEPTES - TIKAI ADMIN -->
+                    @if(Auth::user()->isAdmin())
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.trashed') }}">🗑️ Dzēstās</a>
+                        </li>
+                    @endif
+
                     <li class="nav-item">
                         <span class="nav-link text-light">
                             👤 {{ Auth::user()->name }}
