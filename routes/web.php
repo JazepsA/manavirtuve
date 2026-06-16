@@ -9,7 +9,7 @@ Route::get('/', function () {
     return redirect()->route('recipes.index');
 });
 
-// ========== AUTENTIFIKĀCIJA ==========
+// autentifikacija
 Route::middleware('guest')->group(function () {
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
     Route::post('/register', [AuthController::class, 'register']);
@@ -19,7 +19,7 @@ Route::middleware('guest')->group(function () {
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
-// ========== RECEPTES ==========
+// receptes 
 Route::get('/recipes', [RecipeController::class, 'index'])->name('recipes.index');
 Route::get('/recipes/search', [RecipeController::class, 'search'])->name('recipes.search');
 
@@ -40,5 +40,14 @@ Route::delete('/recipes/{recipe}', [RecipeController::class, 'destroy'])->name('
 Route::post('/recipes/{recipe}/restore', [RecipeController::class, 'restore'])->name('recipes.restore')->middleware('auth');
 Route::get('/admin/trashed-recipes', [RecipeController::class, 'trashed'])->name('admin.trashed')->middleware('auth');
 
-// KOMENTĀRI
+/** 
+Route::get('/lang/{locale}', function ($locale) {
+    if (in_array($locale, ['lv', 'en'])) {
+        session(['locale' => $locale]);
+    }
+    return redirect('/');
+})->name('lang.switch');
+**/
+
+// komentari
 Route::post('/recipes/{recipe}/comment', [App\Http\Controllers\CommentController::class, 'store'])->name('comments.store')->middleware('auth');

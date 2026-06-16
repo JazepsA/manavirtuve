@@ -45,7 +45,9 @@ class RecipePolicy
         return null;
     }
 
-    // Nav vajadzīgs, bet atstāj, lai nebūtu kļūdu
+
+
+    
     public function restore(User $user, Recipe $recipe): bool
     {
         return false;

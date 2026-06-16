@@ -56,7 +56,8 @@ class AuthController extends Controller
 
         // Mēģina pieteikt lietotāju
         if (Auth::attempt($credentials)) {
-            // Reģenerē sesijas ID (drošībai)
+
+        
             $request->session()->regenerate();
             
             // Novirza uz recepšu sarakstu
