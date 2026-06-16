@@ -22,7 +22,7 @@
 
     @if(request('query') && $recipes->count() == 0)
     <div class="alert alert-warning">
-        😕 Nav atrasta neviena recepte pēc meklēšanas frāzes: <strong>"{{ request('query') }}"</strong>
+        Nav atrasta neviena recepte pēc meklēšanas frāzes: <strong>"{{ request('query') }}"</strong>
     </div>
     @endif
 
@@ -45,7 +45,7 @@
                             <h5 class="card-title">{{ $recipe->title }}</h5>
                             
                             <h6 class="card-subtitle mb-2 text-muted">
-                                🏷️ {{ $recipe->category->name ?? 'Bez kategorijas' }}
+                                {{ $recipe->category->name ?? 'Bez kategorijas' }}
                             </h6>
                             
                             <p class="card-text text-muted small">
@@ -77,7 +77,7 @@
         </div>
     @else
         <div class="alert alert-info">
-            📭 Nav nevienas receptes.
+             Nav nevienas receptes.
             @auth
                 <a href="{{ route('recipes.create') }}">Pievieno pirmo!</a>
             @else
