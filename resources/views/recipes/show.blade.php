@@ -20,6 +20,12 @@
 
     <div class="card">
         <div class="card-body">
+
+            @if($recipe->image)
+                <div class="text-center mb-3">
+                    <img src="{{ asset('storage/' . $recipe->image) }}" alt="{{ $recipe->title }}" class="img-fluid rounded" style="max-height: 400px;">
+                </div>
+            @endif
             <h5 class="text-muted">Kategorija: {{ $recipe->category->name ?? 'Nav' }}</h5>
             <hr>
             

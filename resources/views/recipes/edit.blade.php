@@ -8,7 +8,7 @@
 
     <div class="card">
         <div class="card-body">
-            <form method="POST" action="{{ route('recipes.update', $recipe) }}">
+                <form method="POST" action="{{ route('recipes.update', $recipe) }}" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
@@ -17,6 +17,19 @@
                     <label for="title" class="form-label">Nosaukums *</label>
                     <input type="text" name="title" id="title" class="form-control @error('title') is-invalid @enderror" value="{{ old('title', $recipe->title) }}" required>
                     @error('title') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label for="image" class="form-label">Bilde (pēc izvēles)</label>
+                    @if($recipe->image)
+                        <div class="mb-2">
+                            <img src="{{ asset('storage/' . $recipe->image) }}" alt="Pašreizējā bilde" style="max-height: 150px;">
+                            <p class="text-muted small">Pašreizējā bilde</p>
+                        </div>
+                    @endif
+                    <input type="file" name="image" id="image" class="form-control @error('image') is-invalid @enderror" accept="image/*">
+                    <small class="text-muted">Atstāj tukšu, lai saglabātu esošo bildi</small>
+                    @error('image') <div class="invalid-feedback">{{ $message }}</div> @enderror
                 </div>
 
                 <!-- Kategorija -->

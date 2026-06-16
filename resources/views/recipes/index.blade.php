@@ -39,36 +39,24 @@
     @if($recipes->count())
         <div class="row">
             @foreach($recipes as $recipe)
-                <div class="col-md-6 col-lg-4 mb-4">
-                    <div class="card h-100 shadow-sm">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $recipe->title }}</h5>
-                            
-                            <h6 class="card-subtitle mb-2 text-muted">
-                                {{ $recipe->category->name ?? 'Bez kategorijas' }}
-                            </h6>
-                            
-                            <p class="card-text text-muted small">
-                                {{ Str::limit($recipe->description, 100) }}
-                            </p>
-                            
-                            <div class="mb-2">
-                                <strong>Sastāvdaļas:</strong>
-                                <ul class="list-unstyled small">
-                                    @foreach($recipe->ingredients->take(3) as $ingredient)
-                                        <li>{{ $ingredient->pivot->amount }} {{ $ingredient->name }}</li>
-                                    @endforeach
-                                    @if($recipe->ingredients->count() > 3)
-                                        <li class="text-muted">... un vēl {{ $recipe->ingredients->count() - 3 }}</li>
-                                    @endif
-                                </ul>
-                            </div>
-                            
-                            <div class="d-flex justify-content-between align-items-center mt-3">
+                <div class="col-12 mb-4">
+                    <div class="card shadow-sm">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <div>
+                                <h5 class="card-title mb-1">{{ $recipe->title }}</h5>
+                                <h6 class="card-subtitle text-muted">
+                                    {{ $recipe->category->name ?? 'Bez kategorijas' }}
+                                </h6>
+                                <p class="card-text text-muted small mt-2">
+                                    {{ Str::limit($recipe->description, 150) }}
+                                </p>
                                 <small class="text-muted">
-                                    {{ $recipe->user->name ?? 'Nezināms' }}
+                                    Sastāvdaļas: {{ $recipe->ingredients->count() }} | 
+                                    Autors: {{ $recipe->user->name ?? 'Nezināms' }}
                                 </small>
-                                <a href="{{ route('recipes.show', $recipe) }}" class="btn btn-outline-primary btn-sm">Skatīt</a>
+                            </div>
+                            <div>
+                                <a href="{{ route('recipes.show', $recipe) }}" class="btn btn-primary">Skatīt</a>
                             </div>
                         </div>
                     </div>

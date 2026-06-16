@@ -7,6 +7,8 @@ use App\Models\Category;
 use App\Models\Ingredient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+
 
 class RecipeController extends Controller
 {
@@ -68,7 +70,14 @@ class RecipeController extends Controller
             'ingredients.*' => 'exists:ingredients,id',
             'amounts' => 'nullable|array',
             'amounts.*' => 'nullable|string|max:50',
+            'image' => 'nullable|image|max:2048', 
         ]);
+
+            // bildes augsupieladee
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('recipe-images', 'public');
+        }
 
         // Izveido recepti
         $recipe = Recipe::create([
@@ -80,6 +89,7 @@ class RecipeController extends Controller
             'servings' => $validated['servings'] ?? 4,
             'user_id' => Auth::id(),
             'category_id' => $validated['category_id'],
+            'image' => $imagePath,
         ]);
 
         // Pievieno sastāvdaļas
@@ -129,6 +139,17 @@ class RecipeController extends Controller
             'amounts.*' => 'nullable|string|max:50',
         ]);
 
+            // par bildi 
+        if ($request->hasFile('image')) {
+            // Izdzēš veco bildi, ja ir
+            if ($recipe->image && Storage::disk('public')->exists($recipe->image)) {
+                Storage::disk('public')->delete($recipe->image);
+            }
+            $imagePath = $request->file('image')->store('recipe-images', 'public');
+        } else {
+            $imagePath = $recipe->image;
+        }
+
         // Atjauno recepti
         $recipe->update([
             'title' => $validated['title'],
@@ -138,6 +159,7 @@ class RecipeController extends Controller
             'cook_time' => $validated['cook_time'],
             'servings' => $validated['servings'] ?? 4,
             'category_id' => $validated['category_id'],
+            'image' => $imagePath,
         ]);
 
         // Atjauno sastāvdaļas (noņem vecās un pievieno jaunās)
