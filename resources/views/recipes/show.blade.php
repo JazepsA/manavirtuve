@@ -5,16 +5,16 @@
         <h1>{{ $recipe->title }}</h1>
         <div>
             @can('update', $recipe)
-                <a href="{{ route('recipes.edit', $recipe) }}" class="btn btn-warning">✏️ Rediģēt</a>
+                <a href="{{ route('recipes.edit', $recipe) }}" class="btn btn-warning">Rediģēt</a>
             @endcan
             @can('delete', $recipe)
                 <form action="{{ route('recipes.destroy', $recipe) }}" method="POST" style="display:inline-block;">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-danger" onclick="return confirm('Vai tiešām vēlaties dzēst šo recepti?')">🗑️ Dzēst</button>
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('Vai tiešām vēlaties dzēst šo recepti?')">Dzēst</button>
                 </form>
             @endcan
-            <a href="{{ route('recipes.index') }}" class="btn btn-secondary">⬅ Atpakaļ</a>
+            <a href="{{ route('recipes.index') }}" class="btn btn-secondary">Atpakaļ</a>
         </div>
     </div>
 
@@ -50,7 +50,7 @@
             
             <hr>
             
-            <h5>💬 Komentāri:</h5>
+            <h5>Komentāri:</h5>
             @if($recipe->comments->count())
                 @foreach($recipe->comments as $comment)
                     <div class="border-bottom mb-2 pb-2">
@@ -62,25 +62,26 @@
             @else
                 <p class="text-muted">Nav komentāru.</p>
             @endif
+
             @auth
-            <div class="mt-4">
-                <h6>Pievienot komentāru:</h6>
-                <form action="{{ route('comments.store', $recipe) }}" method="POST">
-                    @csrf
-                    <div class="mb-2">
-                        <textarea name="content" class="form-control @error('content') is-invalid @enderror" rows="3" placeholder="Uzraksti savu komentāru..." required></textarea>
-                        @error('content')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-sm">💬 Pievienot komentāru</button>
-                </form>
-            </div>
+                <div class="mt-4">
+                    <h6>Pievienot komentāru:</h6>
+                    <form action="{{ route('comments.store', $recipe) }}" method="POST">
+                        @csrf
+                        <div class="mb-2">
+                            <textarea name="content" class="form-control @error('content') is-invalid @enderror" rows="3" placeholder="Uzraksti savu komentāru..." required></textarea>
+                            @error('content')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-sm">Pievienot komentāru</button>
+                    </form>
+                </div>
             @else
-            <p class="mt-3">
-                <a href="{{ route('login') }}">Pieslēdzies</a>, lai pievienotu komentāru!
-            </p>
-        @endauth
-            </div>
+                <p class="mt-3">
+                    <a href="{{ route('login') }}">Pieslēdzies</a>, lai pievienotu komentāru!
+                </p>
+            @endauth
+        </div>
     </div>
 </x-layout>
