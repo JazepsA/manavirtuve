@@ -20,6 +20,12 @@
         </div>
     @endif
 
+    @if(request('query') && $recipes->count() == 0)
+    <div class="alert alert-warning">
+        😕 Nav atrasta neviena recepte pēc meklēšanas frāzes: <strong>"{{ request('query') }}"</strong>
+    </div>
+    @endif
+
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1>🍽️ Visas receptes</h1>
         
